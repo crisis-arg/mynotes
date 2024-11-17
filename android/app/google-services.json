@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "127349779692",
+    "project_id": "mynotes-crisis",
+    "storage_bucket": "mynotes-crisis.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127349779692:android:554b061c9e576fb13dc9c9",
+        "android_client_info": {
+          "package_name": "com.crisis.mynotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2wm_PSksoTXwZecwLkuKI7Y0YKwC0Yio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
