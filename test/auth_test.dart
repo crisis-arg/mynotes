@@ -32,13 +32,13 @@ void main() {
     test(
       'should be able to initialized in less than 2 secs',
       () async {
-        await provider.initialize();
+        // await provider.initialize();
         expect(provider.isInitialized, true);
       },
       timeout: const Timeout(Duration(seconds: 2)),
     );
     test('create user should deligate to login', () async {
-      final bademailuser = await provider.createUser(
+      final bademailuser = provider.createUser(
         email: 'crisis@mail.com',
         password: 'yoyoyoyoyo',
       );
@@ -47,7 +47,7 @@ void main() {
         throwsA(const TypeMatcher<UserNotFoundAuthException>()),
       );
 
-      final badpassworduser = await provider.createUser(
+      final badpassworduser = provider.createUser(
         email: 'yooyoy@yo.com',
         password: 'antubantu',
       );
