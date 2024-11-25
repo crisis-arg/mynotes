@@ -11,12 +11,17 @@ class NotesService {
   List<DatabaseNote> _notes = [];
 
   //singleton design pattern
-  NotesService._sharedInstance();
+  NotesService._sharedInstance() {
+    _notesStreamController = StreamController<List<DatabaseNote>>.broadcast(
+      onListen: () {
+        _notesStreamController.sink.add(_notes);
+      },
+    );
+  }
   static final NotesService _shared = NotesService._sharedInstance();
   factory NotesService() => _shared;
 
-  final _notesStreamController =
-      StreamController<List<DatabaseNote>>.broadcast();
+  late final StreamController<List<DatabaseNote>> _notesStreamController;
 
   Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
 
@@ -49,10 +54,15 @@ class NotesService {
     await getNote(id: note.id);
 
     //update db
-    final updatesCount = await db.update(noteTable, {
-      textColumn: text,
-      isSyncedWithServerColumn: 0,
-    });
+    final updatesCount = await db.update(
+      noteTable,
+      {
+        textColumn: text,
+        isSyncedWithServerColumn: 0,
+      },
+      where: 'id = ?',
+      whereArgs: [note.id],
+    );
     if (updatesCount == 0) {
       throw CouldNotUpdateNote();
     } else {
@@ -305,7 +315,8 @@ class DatabaseNote {
 }
 
 const dbName = 'notes.db';
-const noteTable = 'note';
+//did a spelling mistake . forget to put a 's' in 'notes' :)
+const noteTable = 'notes';
 const userTable = 'user';
 const idColumn = 'id';
 const emailColumn = 'email';
