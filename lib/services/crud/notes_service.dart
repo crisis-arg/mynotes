@@ -11,6 +11,7 @@ class NotesService {
   List<DatabaseNote> _notes = [];
 
   //singleton design pattern
+  static final NotesService _shared = NotesService._sharedInstance();
   NotesService._sharedInstance() {
     _notesStreamController = StreamController<List<DatabaseNote>>.broadcast(
       onListen: () {
@@ -18,7 +19,7 @@ class NotesService {
       },
     );
   }
-  static final NotesService _shared = NotesService._sharedInstance();
+
   factory NotesService() => _shared;
 
   late final StreamController<List<DatabaseNote>> _notesStreamController;
@@ -128,6 +129,8 @@ class NotesService {
       throw CouldNotDeleteNote();
     } else {
       _notes.removeWhere((note) => note.id == id);
+      //forgot to add the new notes in stream :)
+      _notesStreamController.add(_notes);
     }
   }
 
