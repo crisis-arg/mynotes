@@ -17,7 +17,7 @@ class LoadingScreen {
     if (controller?.update(text) ?? false) {
       return;
     } else {
-      controller = showOverlays(
+      controller = showOverlay(
         context: context,
         text: text,
       );
@@ -26,9 +26,10 @@ class LoadingScreen {
 
   void hide() {
     controller?.close();
+    controller = null;
   }
 
-  LoadingScreenController? showOverlays({
+  LoadingScreenController showOverlay({
     required BuildContext context,
     required String text,
   }) {
@@ -48,7 +49,7 @@ class LoadingScreen {
               constraints: BoxConstraints(
                 maxWidth: size.width * 0.8,
                 maxHeight: size.height * 0.8,
-                minHeight: size.height * 0.5,
+                minWidth: size.width * 0.5,
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
