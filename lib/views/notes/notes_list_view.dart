@@ -27,6 +27,7 @@ class NotesListView extends StatelessWidget {
             onTap(note);
           },
           title: Text(
+            style: const TextStyle(color: Colors.white70),
             note.text,
             maxLines: 1,
             softWrap: true,

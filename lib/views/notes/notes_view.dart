@@ -30,9 +30,17 @@ class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black87,
       appBar: AppBar(
-        title: const Text('Your Notes'),
-        backgroundColor: Colors.amber,
+        title: const Text(
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: 34,
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold,
+            ),
+            'Your Notes'),
+        backgroundColor: Colors.deepPurpleAccent,
         actions: [
           IconButton(
             onPressed: () {
@@ -59,8 +67,15 @@ class _NotesViewState extends State<NotesView> {
             itemBuilder: (context) {
               return const [
                 PopupMenuItem<MenuAction>(
+                  padding: EdgeInsets.all(16.0),
                   value: MenuAction.logout,
-                  child: Text('Log out'),
+                  child: Text(
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepPurpleAccent,
+                        fontSize: 16,
+                      ),
+                      'Log out'),
                 )
               ];
             },

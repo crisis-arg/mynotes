@@ -38,7 +38,6 @@ class _LoginViewState extends State<LoginView> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateLoggedOut) {
-
           if (state.exception is UserNotFoundAuthException) {
             await showErrorDialog(
               context,
@@ -58,50 +57,71 @@ class _LoginViewState extends State<LoginView> {
         }
       },
       child: Scaffold(
+        backgroundColor: Colors.black87,
         appBar: AppBar(
-          title: const Text('Login'),
-          backgroundColor: Colors.amber,
+          title: const Text(
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 34,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold,
+              ),
+              'Login'),
+          backgroundColor: Colors.deepPurpleAccent,
         ),
-        body: Column(
-          children: [
-            TextField(
-              controller: _email,
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                hintText: 'email',
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                style: const TextStyle(color: Colors.white70),
+                controller: _email,
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  hintText: 'email',
+                ),
               ),
-            ),
-            TextField(
-              controller: _password,
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: const InputDecoration(
-                hintText: 'password',
+              TextField(
+                style: const TextStyle(color: Colors.white70),
+                controller: _password,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: const InputDecoration(
+                  hintText: 'password',
+                ),
               ),
-            ),
-            TextButton(
-                onPressed: () async {
-                  final email = _email.text;
-                  final password = _password.text;
+              TextButton(
+                  onPressed: () async {
+                    final email = _email.text;
+                    final password = _password.text;
+                    context.read<AuthBloc>().add(
+                          AuthEventLogIn(
+                            email,
+                            password,
+                          ),
+                        );
+                  },
+                  child: const Text('Login')),
+              TextButton(
+                onPressed: () {
                   context.read<AuthBloc>().add(
-                        AuthEventLogIn(
-                          email,
-                          password,
-                        ),
+                        const AuthEventForgotpassword(),
                       );
                 },
-                child: const Text('Login')),
-            TextButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(
-                      const AuthEventShouldRegister(),
-                    );
-              },
-              child: const Text('Not register yet? Register here!'),
-            )
-          ],
+                child: const Text('Forgot password'),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.read<AuthBloc>().add(
+                        const AuthEventShouldRegister(),
+                      );
+                },
+                child: const Text('Not register yet? Register here!'),
+              )
+            ],
+          ),
         ),
       ),
     );
