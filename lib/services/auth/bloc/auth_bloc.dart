@@ -4,7 +4,8 @@ import 'package:mynotes/services/auth/bloc/auth_event.dart';
 import 'package:mynotes/services/auth/bloc/auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(AuthProvider provider) : super(const AuthStateUninitialize()) {
+  AuthBloc(AuthProvider provider)
+      : super(const AuthStateUninitialize(isLoading: true)) {
     //send email verification
     on<AuthEventSendEmailVerification>((event, emit) async {
       await provider.sendEmailVerification();
@@ -20,9 +21,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           password: password,
         );
         await provider.sendEmailVerification();
-        emit(const AuthStateNeedsVErification());
+        emit(const AuthStateNeedsVErification(isLoading: false));
       } on Exception catch (e) {
-        emit(AuthStateRegistering(e));
+        emit(AuthStateRegistering(
+          exception: e,
+          isLoading: false,
+        ));
       }
     });
     //initialize
@@ -35,9 +39,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           isLoading: false,
         ));
       } else if (!user.isEmailVerified) {
-        emit(const AuthStateNeedsVErification());
+        emit(const AuthStateNeedsVErification(isLoading: false));
       } else {
-        emit(AuthStateLoggedIn(user));
+        emit(AuthStateLoggedIn(
+          user: user,
+          isLoading: false,
+        ));
       }
     });
     //log in
@@ -46,6 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         const AuthStateLoggedOut(
           exception: null,
           isLoading: true,
+          loadingText: 'Please wait...',
         ),
       );
       final email = event.email;
@@ -63,7 +71,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               isLoading: false,
             ),
           );
-          emit(AuthStateNeedsVErification());
+          emit(const AuthStateNeedsVErification(isLoading: false));
         } else {
           emit(
             const AuthStateLoggedOut(
@@ -72,7 +80,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             ),
           );
           emit(
-            AuthStateLoggedIn(user),
+            AuthStateLoggedIn(
+              user: user,
+              isLoading: false,
+            ),
           );
         }
       } on Exception catch (e) {
@@ -84,6 +95,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       }
     });
+    //logout
     on<AuthEventLogOut>((event, emit) async {
       try {
         await provider.logOut();
@@ -96,8 +108,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       }
     });
+    //register
     on<AuthEventShouldRegister>((event, emit) async {
-      emit(const AuthStateRegistering(null));
+      emit(const AuthStateRegistering(
+        exception: null,
+        isLoading: false,
+      ));
     });
   }
 }
