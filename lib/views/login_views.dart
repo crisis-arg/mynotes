@@ -57,7 +57,7 @@ class _LoginViewState extends State<LoginView> {
         }
       },
       child: Scaffold(
-        backgroundColor: const Color(0x33333300),
+        backgroundColor: const Color.fromARGB(51, 46, 35, 108),
         appBar: AppBar(
           title: const Text(
               style: TextStyle(

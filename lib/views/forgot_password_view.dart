@@ -43,7 +43,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         }
       },
       child: Scaffold(
-        backgroundColor: const Color(0x33333300),
+        backgroundColor: const Color.fromARGB(51, 46, 35, 108),
         appBar: AppBar(
           backgroundColor: Colors.deepPurpleAccent,
           title: const Text(
