@@ -13,7 +13,7 @@ Future<T?> showgenericDialog<T>({
     context: context,
     builder: (context) {
       return AlertDialog(
-        backgroundColor: Colors.white70,
+        backgroundColor: Colors.grey,
         title: Text(title),
         content: Text(content),
         actions: options.keys.map(
